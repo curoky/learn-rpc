@@ -23,8 +23,7 @@
 
 #include <string>
 
-#include "gen-cpp/mock_types.h"  // for MockRequest, operator<<
-#include "serialize_helper.h"  // for BinaryToThrift, JsonToThrift, ThriftToBinary, ThriftToDebug, ThriftToJson
+#include "tutorial/thrift/serialize/idl/gen-cpp/types_types.h"
 
 TEST_CASE("json string", "[Serialize]") {
   // because of thrift's bug, skip this case;

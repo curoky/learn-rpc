@@ -23,7 +23,7 @@
 
 #include <utility>
 
-#include "gen-cpp2/mock_types.h"  // for MockRequest
+#include "library/serialization/fbthrift/idl/gen-cpp2/mock_types.h"
 
 TEST_CASE("zero copy", "[Serialize]") {
   {

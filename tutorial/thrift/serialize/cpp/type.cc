@@ -26,8 +26,8 @@
 #include <typeinfo>
 #include <vector>
 
-#include "gen-cpp/mock_constants.h"  // for g_mock_constants, mockConstants
-#include "gen-cpp/mock_types.h"      // for MockRequest, EnumType::type, EnumType
+#include "tutorial/thrift/serialize/idl/gen-cpp/types_constants.h"
+#include "tutorial/thrift/serialize/idl/gen-cpp/types_types.h"
 
 #define REQUIRE_TYPE(var, type) REQUIRE(typeid(var) == typeid(type));
 
