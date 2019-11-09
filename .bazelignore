@@ -1,0 +1,6 @@
+external
+builddir
+source/brpc/example
+source/brpc/tools
+source/brpc/test
+source/brpc/tutorial
