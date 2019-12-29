@@ -20,10 +20,17 @@ dist
 
 # golang
 coverage.txt
-design-pattern/dependency_injection/wire/wire_gen.go
-lang/go/go_enum_test_enum.go
-distributed/rpc/thrift/tools/proxy-buffered-to-framed
+tutorial/thrift/tools/proxy-buffered-to-framed
 
-# clang
-clang-analysis
-compile_commands.json
+## maven
+tutorial/thrift/echo/java/target/*
+tutorial/protobuf/serialize/java/bin/
+
+## gradle
+.gradle
+tutorial/thrift/echo/java/build
+tutorial/thrift/echo/java/bin
+
+## rust
+target/
+gen_rs/
