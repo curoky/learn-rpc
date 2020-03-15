@@ -1,0 +1,5 @@
+version: '3'
+tasks:
+  # generate: thrift --gen java -r --out src/idl ../idl/echo.thrift
+  runServer: mvn exec:java -D exec.mainClass=EchoServer
+  runClient: mvn exec:java -D exec.mainClass=EchoClient
