@@ -1,0 +1,8 @@
+[workspace]
+members = [
+  "tutorial/thrift/serialize/idl",
+  "tutorial/thrift/echo/idl",
+  "tutorial/thrift/echo/rust",
+  "tutorial/protobuf/serialize/idl",
+  "tutorial/protobuf/serialize/rust",
+]
