@@ -1,0 +1,10 @@
+[package]
+name = "thrift-echo"
+version = "0.0.1"
+license = "Apache-2.0"
+authors = ["curoky <cccuroky@gmail.com>"]
+edition = "2021"
+
+[dependencies]
+thrift = "0.15.0"
+thrift_echo_idl = { path = "../idl" }
