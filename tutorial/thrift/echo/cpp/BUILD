@@ -105,7 +105,7 @@ cc_test(
         # "@com_github_mrtazz_restclient_cpp//:restclient",
         # "@com_github_msgpack_msgpack_c//:msgpack",
         # "@com_github_neargye_nameof//:nameof",
-        "@com_github_nlohmann_json//:json",
+        "@com_github_nlohmann_json//:nlohmann_json",
         # "@com_github_oneapi_src_onetbb//:tbb",
         # "@com_github_open_source_parsers_jsoncpp//:jsoncpp",
         # "@com_github_renatogarcia_icecream_cpp//:icecream",

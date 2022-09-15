@@ -36,7 +36,7 @@ cc_binary(
         "@com_github_gabime_spdlog//:spdlog",
         "@com_github_gflags_gflags//:gflags",
         "@com_github_google_glog//:glog",
-        "@com_github_nlohmann_json//:json",
+        "@com_github_nlohmann_json//:nlohmann_json",
         "@com_google_protobuf//:protobuf",
     ],
 )
