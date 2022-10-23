@@ -1,0 +1,15 @@
+[submodule "source/folly"]
+	path = source/folly
+	url = git@github.com:curoky/folly
+[submodule "source/fbthrift"]
+	path = source/fbthrift
+	url = git@github.com:curoky/fbthrift
+[submodule "source/wangle"]
+	path = source/wangle
+	url = git@github.com:curoky/wangle
+[submodule "source/brpc"]
+	path = source/brpc
+	url = git@github.com:curoky/incubator-brpc
+[submodule "source/thrift"]
+	path = source/thrift
+	url = git@github.com:curoky/thrift
