@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@com_curoky_tame//:recipes/f/fbthrift/build_defs.bzl", "fbthrift_library")
+load("//source/fbthrift:generator.bzl", "fbthrift_library")
 
 fbthrift_library(
     name = "echo_fbthrift",

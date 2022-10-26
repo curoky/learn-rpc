@@ -15,8 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@com_curoky_tame//:recipes/t/thrift/build_defs.bzl", "thrift_library")
-# load("@//:build-system/bazel/tools/thrift_build_defs.bzl", "thrift_library")
+load("//source/thrift:generator.bzl", "thrift_library")
 
 thrift_library(
     name = "echo_thrift",

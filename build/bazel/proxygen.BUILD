@@ -16,7 +16,7 @@
 # limitations under the License.
 
 load("@rules_cc//cc:defs.bzl", "cc_library")
-load("@com_curoky_tame//bazel:copts.bzl", "DEFAULT_CPP_COPTS")
+load("@com_github_curoky_learn_rpc//:build/bazel/copts.bzl", "DEFAULT_CPP_COPTS")
 
 genrule(
     name = "gen_http_common_headers",

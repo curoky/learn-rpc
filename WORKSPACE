@@ -17,58 +17,39 @@
 
 workspace(name = "com_github_curoky_learn_rpc")
 
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
-
-# '''
-git_repository(
-    name = "com_curoky_tame",
-    branch = "master",
-    remote = "https://github.com/curoky/tame",
-)
-
-'''
-local_repository(
-    name = "com_curoky_tame",
-    path = "/home/cicada/repos/tame",
-)
-#'''
-
 load("//:build/bazel/recipes.bzl", "pkg_rules_dependencies")
+
 pkg_rules_dependencies()
 
 load("@//:builddir/conan/dependencies.bzl", "load_conan_dependencies")
+
 load_conan_dependencies()
 
 load("@com_github_nelhage_rules_boost//:boost/boost.bzl", "boost_deps")
+
 boost_deps()
 
-# load("//build/bazel/register_toolchains.bzl", "pkg_register_toolchains")
-
-# pkg_register_toolchains()
-
 load("@rules_bison//bison:bison.bzl", "bison_register_toolchains")
-load("@rules_flex//flex:flex.bzl", "flex_register_toolchains")
-load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
-load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
-load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-load("@bazel_skylib//:workspace.bzl", "bazel_skylib_workspace")
-load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
-
-
-m4_register_toolchains()
-
-flex_register_toolchains()
 
 bison_register_toolchains()
 
-rules_foreign_cc_dependencies()
+load("@rules_flex//flex:flex.bzl", "flex_register_toolchains")
+
+flex_register_toolchains()
+
+load("@rules_m4//m4:m4.bzl", "m4_register_toolchains")
+
+m4_register_toolchains()
+
+load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
 
 hedron_compile_commands_setup()
 
-bazel_skylib_workspace()
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 
 protobuf_deps()
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
 
 rules_proto_dependencies()
 
