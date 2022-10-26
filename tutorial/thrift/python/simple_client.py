@@ -18,14 +18,11 @@
 import logging
 import time
 
-from thrift.protocol.TBinaryProtocol import (TBinaryProtocol,
-                                             TBinaryProtocolFactory)
+from thrift.protocol.TBinaryProtocol import TBinaryProtocol, TBinaryProtocolFactory
 # from thrift.protocol.THeaderProtocol import THeaderProtocol, THeaderProtocolFactory
 from thrift.transport import TSocket
 # from thrift.protocol.TSimpleJSONProtocol import TSimpleJSONProtocol, TSimpleJSONProtocolFactory
-from thrift.transport.TTransport import (TFramedTransport,
-                                         TFramedTransportFactory,
-                                         TMemoryBuffer)
+from thrift.transport.TTransport import TFramedTransport, TFramedTransportFactory, TMemoryBuffer
 
 
 class SimpleClient:
