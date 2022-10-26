@@ -7,20 +7,16 @@ bazel-*
 ## clang
 compile_commands.json
 
-## thrift
-**/gen-cpp/*
-**/gen-go/*
-**/gen-java/*
-
-# python
+## python
 *.pyc
 
 ## poetry
 dist
 
-# golang
+## golang
 coverage.txt
 tutorial/thrift/tools/proxy-buffered-to-framed
+gen-go
 
 ## maven
 tutorial/thrift/echo/java/target/*
@@ -33,4 +29,14 @@ tutorial/thrift/echo/java/bin
 
 ## rust
 target/
-gen_rs/
+
+## vscode
+.vscode/settings.json
+
+## thrift
+gen_rs
+gen-go
+tutorial/thrift/echo/idl/echo.rs
+tutorial/thrift/serialize/idl/types.rs
+tutorial/protobuf/serialize/idl/mod.rs
+tutorial/protobuf/serialize/idl/types.rs
