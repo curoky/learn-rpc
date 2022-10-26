@@ -27,8 +27,7 @@ cc_library(
     copts = TEST_CPP_COPTS,
     linkopts = TEST_LINKOPTS,
     deps = [
-        "@com_github_catchorg_catch2//:catch2_main",
-        "@com_github_facebook_fbthrift//:fbthrift",
+        "//source/fbthrift",
     ],
 )
 
@@ -41,7 +40,7 @@ cc_binary(
     copts = TEST_CPP_COPTS,
     linkopts = TEST_LINKOPTS,
     deps = [
-        "@com_github_facebook_fbthrift//:fbthrift",
+        "//source/fbthrift",
     ],
 )
 
@@ -55,7 +54,7 @@ cc_binary(
     copts = TEST_CPP_COPTS,
     linkopts = TEST_LINKOPTS,
     deps = [
-        "@com_github_facebook_fbthrift//:fbthrift",
+        "//source/fbthrift",
     ],
 )
 
@@ -68,7 +67,7 @@ cc_binary(
     copts = TEST_CPP_COPTS,
     linkopts = TEST_LINKOPTS,
     deps = [
-        "@com_github_facebook_fbthrift//:fbthrift",
-        "@com_github_facebook_folly//:folly",
+        "//source/fbthrift",
+        "//source/folly",
     ],
 )

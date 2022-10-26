@@ -27,8 +27,8 @@ cc_binary(
     copts = TEST_CPP_COPTS + ["-I."],
     linkopts = TEST_LINKOPTS,
     deps = [
-        "@com_github_facebook_folly//:folly",
-        "@com_github_facebook_wangle//:wangle",
+        "//source/folly",
+        "//source/wangle",
         "@com_github_gflags_gflags//:gflags",
         "@com_github_google_glog//:glog",
         "@org_openssl//:crypto",

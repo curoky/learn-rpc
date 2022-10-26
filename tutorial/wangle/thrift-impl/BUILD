@@ -30,9 +30,9 @@ cc_binary(
     linkopts = TEST_LINKOPTS,
     visibility = ["//visibility:public"],
     deps = [
-        "@com_github_facebook_fbthrift//:fbthrift",
-        "@com_github_facebook_folly//:folly",
-        "@com_github_facebook_wangle//:wangle",
+        "//source/fbthrift",
+        "//source/folly",
+        "//source/wangle",
         "@com_github_gabime_spdlog//:spdlog",
         "@com_github_gflags_gflags//:gflags",
         "@com_github_google_glog//:glog",
