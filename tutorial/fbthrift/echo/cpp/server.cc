@@ -22,8 +22,8 @@
 #include <glog/logging.h>
 #include <thrift/lib/cpp2/server/ThriftServer.h>
 
-#include "tutorial/fbthrift/echo/idl/gen-cpp2/Echo.h"
 #include "echo_handler.h"
+#include "tutorial/fbthrift/echo/idl/gen-cpp2/Echo.h"
 
 DEFINE_int32(port, 9999, "server port");
 

@@ -19,15 +19,15 @@
 
 #include "to_json.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <nlohmann/json.hpp>
 
 #include <initializer_list>
 #include <string>
 #include <vector>
 
-#include "tutorial/thrift/echo/idl/gen-cpp/complex_types.h"
 #include "traits.h"
+#include "tutorial/thrift/serialize/idl/gen-cpp/types_types.h"
 
 using json = nlohmann::json;
 

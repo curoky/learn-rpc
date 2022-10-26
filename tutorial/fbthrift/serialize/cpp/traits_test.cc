@@ -20,7 +20,7 @@
 #define USE_FBTHRIFT
 #include "library/serialization/thrift/traits.h"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include <condition_variable>
 #include <type_traits>
