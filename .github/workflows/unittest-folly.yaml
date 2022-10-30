@@ -1,0 +1,56 @@
+name: Unittest Folly
+on:
+  push:
+    paths:
+      - '.github/workflows/unittest-folly.yaml'
+      - 'tutorial/folly'
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+
+jobs:
+  cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: Homebrew/actions/setup-homebrew@master
+      - uses: bazelbuild/setup-bazelisk@v2
+
+      - name: Setup GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 11
+          platform: x64
+
+      - name: install tools
+        run: brew install boost cmake llvm ninja conan gperf go-task/tap/go-task
+
+      - name: mount conan cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.conan/data
+          key: conan-${{ runner.os }}-${{ hashFiles('build/conan/conanfile.txt') }}
+
+      - name: install conan package
+        run: task
+        working-directory: build/conan
+
+      - name: setup buildbuddy
+        run: |
+          echo 'build --bes_results_url=https://app.buildbuddy.io/invocation/' >> .bazelrc
+          echo 'build --bes_backend=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_cache=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_timeout=3600' >> .bazelrc
+          echo 'build --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API }}' >> .bazelrc
+
+      - name: generate fbthrift template data
+        run: task build_templates
+        working-directory: source/fbthrift
+
+      - name: bazel build
+        run: bazel build --remote_download_minimal //tutorial/folly/...
+
+      - name: bazel test
+        run: bazel test //tutorial/folly/... || echo ignore error
