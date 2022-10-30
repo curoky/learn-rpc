@@ -1,0 +1,115 @@
+name: Unittest Thrift
+on:
+  push:
+    paths:
+      - '.github/workflows/unittest-thrift.yaml'
+      - 'tutorial/thrift'
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+
+jobs:
+  cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: Homebrew/actions/setup-homebrew@master
+      - uses: bazelbuild/setup-bazelisk@v2
+
+      - name: Setup GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 11
+          platform: x64
+
+      - name: install tools
+        run: brew install cmake llvm ninja conan go-task/tap/go-task
+
+      - name: mount conan cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.conan/data
+          key: conan-${{ runner.os }}-${{ hashFiles('build/conan/conanfile.txt') }}
+
+      - name: install conan package
+        run: task
+        working-directory: build/conan
+
+      - name: setup buildbuddy
+        run: |
+          echo 'build --bes_results_url=https://app.buildbuddy.io/invocation/' >> .bazelrc
+          echo 'build --bes_backend=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_cache=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_timeout=3600' >> .bazelrc
+          echo 'build --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API }}' >> .bazelrc
+
+      - name: bazel build
+        run: bazel build --remote_download_minimal //tutorial/thrift/...
+
+      - name: bazel test
+        run: bazel test //tutorial/thrift/...
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: Swatinem/rust-cache@v1
+        with:
+          key: rust-${{ runner.os }}
+
+      - name: install thrift
+        run: |
+          mkdir -p ${HOME}/.local/bin
+          curl -L -o ${HOME}/.local/bin/thrift https://github.com/curoky/static-binaries/releases/download/v1.2.0/thrift-0.16.0
+          chmod +x ${HOME}/.local/bin/thrift
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - run: cargo build --release --all-features
+        working-directory: tutorial/thrift/echo/rust
+
+  golang:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '^1.18'
+          cache: true
+
+      - name: install thrift
+        run: |
+          mkdir -p ${HOME}/.local/bin
+          curl -L -o ${HOME}/.local/bin/thrift https://github.com/curoky/static-binaries/releases/download/v1.2.0/thrift-0.16.0
+          chmod +x ${HOME}/.local/bin/thrift
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - run: go generate ./tutorial/thrift/...
+      - run: go build ./tutorial/thrift/echo/go/server.go
+      - run: go build ./tutorial/thrift/echo/go/client.go
+      - run: rm -rf tutorial/thrift/echo/idl/gen-go/echo/echo-remote/echo-remote.go
+      # - run: go test -v -race -coverprofile coverage.txt -covermode atomic ./tutorial/thrift/...
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+          cache: 'maven'
+
+      - name: install thrift
+        run: |
+          mkdir -p ${HOME}/.local/bin
+          curl -L -o ${HOME}/.local/bin/thrift https://github.com/curoky/static-binaries/releases/download/v1.2.0/thrift-0.16.0
+          chmod +x ${HOME}/.local/bin/thrift
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - run: mvn -B compile -e --file pom.xml
+        working-directory: tutorial/thrift/echo/java
