@@ -1,0 +1,88 @@
+name: Unittest Protobuf
+on:
+  push:
+    paths:
+      - '.github/workflows/unittest-protobuf.yaml'
+      - 'tutorial/protobuf'
+  schedule:
+    - cron: '0 0 * * 6'
+  workflow_dispatch:
+
+jobs:
+  cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: Homebrew/actions/setup-homebrew@master
+      - uses: bazelbuild/setup-bazelisk@v2
+
+      - name: Setup GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 11
+          platform: x64
+
+      - name: install tools
+        run: brew install cmake llvm ninja conan go-task/tap/go-task
+
+      - name: mount conan cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.conan/data
+          key: conan-${{ runner.os }}-${{ hashFiles('build/conan/conanfile.txt') }}
+
+      - name: install conan package
+        run: task
+        working-directory: build/conan
+
+      - name: setup buildbuddy
+        run: |
+          echo 'build --bes_results_url=https://app.buildbuddy.io/invocation/' >> .bazelrc
+          echo 'build --bes_backend=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_cache=grpcs://remote.buildbuddy.io' >> .bazelrc
+          echo 'build --remote_timeout=3600' >> .bazelrc
+          echo 'build --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API }}' >> .bazelrc
+
+      - name: bazel build
+        run: bazel build --remote_download_minimal //tutorial/protobuf/...
+
+      - name: bazel test
+        run: bazel test //tutorial/protobuf/... || echo ignore error
+
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: Swatinem/rust-cache@v1
+        with:
+          key: rust-${{ runner.os }}
+
+      - run: cargo build --release --all-features
+        working-directory: tutorial/protobuf/serialize/rust
+
+  golang:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '^1.18'
+          cache: true
+
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '18'
+          cache: 'maven'
+
+      - run: mvn -B compile -e --file pom.xml
+        working-directory: tutorial/protobuf/serialize/java
