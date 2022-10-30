@@ -1,0 +1,18 @@
+[package]
+name = "proto_echo_idl"
+version = "1.0.0"
+authors = ["curoky <cccuroky@gmail.com>"]
+publish = false
+edition = "2021"
+
+[dependencies]
+protobuf = "3.1.0"
+protobuf-json-mapping = "3.1.0"
+
+[build-dependencies]
+protobuf-codegen = "3.1.0"
+protoc-bin-vendored = "3.0.0"
+
+[lib]
+name = "types"
+path = "types.rs"
