@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/unittest-folly.yaml'
-      - 'tutorial/folly'
+      - 'tutorial/folly/**'
   schedule:
     - cron: '0 0 * * 6'
   workflow_dispatch:

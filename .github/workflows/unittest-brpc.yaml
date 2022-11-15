@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/unittest-brpc.yaml'
-      - 'tutorial/brpc'
+      - 'tutorial/brpc/**'
   schedule:
     - cron: '0 0 * * 6'
   workflow_dispatch:
