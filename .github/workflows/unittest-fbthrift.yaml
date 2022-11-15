@@ -31,7 +31,7 @@ jobs:
           key: conan-${{ runner.os }}-${{ hashFiles('build/conan/conanfile.txt') }}
 
       - name: install conan package
-        run: task
+        run: task && task
         working-directory: build/conan
 
       - name: setup buildbuddy
