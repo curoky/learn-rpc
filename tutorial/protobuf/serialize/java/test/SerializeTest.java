@@ -30,15 +30,15 @@ import org.junit.jupiter.api.Test;
 
 public class SerializeTest {
   ClassType getRequest() {
-    ClassType.Builder requestBuilder = ClassType.newBuilder();
-    requestBuilder.setVarInt32(1)
+    return ClassType.newBuilder()
+        .setVarInt32(1)
         .setVarFloat(2.0f)
         .setVarStr("hello")
         .setVarEnum(ClassType.EnumType.FOUR)
         .addVarInt32Lists(1)
-        .setVarInnerClass(ClassType.InnerClassType.newBuilder().setVarBool(false).build());
+        .setVarInnerClass(ClassType.InnerClassType.newBuilder().setVarBool(false).build())
+        .build();
     // .setVarAny(Any.newBuilder().setTypeUrl("type.googleapis.com/idl.pb.ClassType").build());
-    return requestBuilder.build();
   }
 
   @Test
