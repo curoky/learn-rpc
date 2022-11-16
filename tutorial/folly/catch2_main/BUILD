@@ -16,18 +16,13 @@
 # limitations under the License.
 load("//:build/bazel/copts.bzl", "TEST_CPP_COPTS", "TEST_LINKOPTS")
 
-cc_test(
-    name = "observer",
-    testonly = False,
-    srcs = [
-        "observer.cc",
-    ] + ["//tutorial/fbthrift/echo/idl:echo_fbthrift"],
+cc_library(
+    name = "test_main",
+    srcs = ["TestMain.cc"],
     copts = TEST_CPP_COPTS,
     linkopts = TEST_LINKOPTS,
     deps = [
-        "//source/fbthrift",
-        "//tutorial/fbthrift/echo/cpp:echo_handler",
-        "//tutorial/folly/catch2_main:test_main",
+        "//source/folly",
         "@com_github_catchorg_catch2//:catch2",
     ],
 )

@@ -29,13 +29,6 @@
 #include <thrift/lib/cpp2/server/BaseThriftServer.h>
 #include <thrift/lib/cpp2/server/ThriftServer.h>
 
-#include "tutorial/fbthrift/echo/idl/gen-cpp2/Echo.h"
-// #include "tutorial/fbthrift/echo/idl/gen-cpp2/Echo.h"
-
-// #include "library/serialization/fbthrift/idl/gen-cpp2/EchoAsyncClient.h"  // for EchoAsyncClient
-// #include "library/serialization/fbthrift/idl/gen-cpp2/mock_types.h"  // for StructType,
-// MockResponse #include <thrift/perf/cpp2/util/Util.h>
-
 #include <atomic>
 #include <chrono>
 #include <memory>
@@ -44,6 +37,7 @@
 #include <utility>
 
 #include "tutorial/fbthrift/echo/cpp/echo_handler.h"
+#include "tutorial/fbthrift/echo/idl/gen-cpp2/Echo.h"
 
 std::unique_ptr<apache::thrift::ThriftServer> create_echo_server(int port) {
   auto handler = std::make_shared<EchoHandler>();
@@ -74,13 +68,22 @@ class EchoTmObserver : public apache::thrift::concurrency::ThreadManager::Observ
 };
 
 TEST_CASE("basic usage", "[Observer]") {
-  return;
   std::atomic_bool exited{false};
   // create server
   std::unique_ptr<apache::thrift::ThriftServer> server = create_echo_server(2333);
   auto observer = std::make_shared<EchoTmObserver>();
-  // NOTE: the observer is for all tmgr
-  // server->getThreadManager()->setGlobalObserver(observer);
+
+  // Setup observer for all tmgr
+  apache::thrift::concurrency::ThreadManager::setGlobalObserver(observer);
+  // Setup observer for special server
+  // Note: when use PriorityThreadManager(by default), addTaskObserver is not impl,
+  // because PriorityThreadManager hold a list of ThreadManager.
+  // auto tm = std::dynamic_pointer_cast<apache::thrift::concurrency::ThreadManager>(
+  //     server->getThreadManager());
+  // auto tm = server->getThreadManager_deprecated();
+  // REQUIRE(tm != nullptr);
+  // tm->addTaskObserver(observer);
+
   std::thread th([&server, &exited]() {
     server->serve();
     exited.store(true);
@@ -98,10 +101,13 @@ TEST_CASE("basic usage", "[Observer]") {
 
   echo::cpp2::Req req;
   echo::cpp2::Rsp rsp;
-  client->sync_echo(rsp, req);
 
-  REQUIRE(observer->pre_count_.load() == 1);
-  REQUIRE(observer->post_count_.load() == 1);
+  REQUIRE(observer->pre_count_.load() == 3);
+  REQUIRE(observer->post_count_.load() == 3);
+  client->sync_echo(rsp, req);
+  REQUIRE(observer->pre_count_.load() == 4);
+  REQUIRE(observer->post_count_.load() == 4);
+
   server->stop();
   while (exited.load() == false) {
     std::this_thread::sleep_for(std::chrono::seconds(1));

@@ -42,6 +42,10 @@ jobs:
           echo 'build --remote_timeout=3600' >> .bazelrc
           echo 'build --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API }}' >> .bazelrc
 
+      - name: generate fbthrift template data
+        run: task build_templates
+        working-directory: source/fbthrift
+
       - name: bazel build
         run: bazel build --remote_download_minimal //tutorial/folly/...
 
