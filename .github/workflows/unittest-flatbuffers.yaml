@@ -46,7 +46,7 @@ jobs:
         run: bazel build --remote_download_minimal //tutorial/flatbuffers/...
 
       - name: bazel test
-        run: bazel test //tutorial/flatbuffers/... || echo ignore error
+        run: bazel test //tutorial/flatbuffers/...
 
   rust:
     runs-on: ubuntu-latest

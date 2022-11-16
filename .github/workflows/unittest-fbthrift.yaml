@@ -50,7 +50,7 @@ jobs:
         run: bazel build --remote_download_minimal //tutorial/fbthrift/...
 
       - name: bazel test
-        run: bazel test //tutorial/fbthrift/... || echo ignore error
+        run: bazel test //tutorial/fbthrift/...
 
   rust:
     runs-on: ubuntu-latest

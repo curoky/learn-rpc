@@ -46,7 +46,7 @@ jobs:
         run: bazel build --remote_download_minimal //tutorial/protobuf/...
 
       - name: bazel test
-        run: bazel test //tutorial/protobuf/... || echo ignore error
+        run: bazel test //tutorial/protobuf/...
 
   rust:
     runs-on: ubuntu-latest
